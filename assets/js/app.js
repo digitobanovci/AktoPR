@@ -27,7 +27,11 @@
             $('[data-ai-generate]').on('click', (e) => this.aiGenerate($(e.currentTarget).data('ai-generate')));
 
             // New client buttons
-            $('#aktopr-welcome-new, #aktopr-new-client, #aktopr-edit-client').on('click', () => this.showClientModal());
+            $('#aktopr-welcome-new, #aktopr-new-client, #aktopr-edit-client, #aktopr-add-klijent').on('click', () => this.showClientModal());
+
+            // Select klijent
+            $(document).on('click', '.aktopr-btn-select-klijent', (e) => this.selectKlijent($(e.currentTarget).data('id')));
+            $(document).on('click', '.aktopr-btn-edit-klijent', (e) => this.editKlijent($(e.currentTarget).data('id')));
 
             // Add buttons
             $('#aktopr-add-zaposleni').on('click', () => this.showZaposleniModal());
@@ -175,30 +179,60 @@
                         <label>Pun naziv firme *</label>
                         <input type="text" name="naziv" required placeholder="Naziv preduzeća">
                     </div>
-                    <div class="aktopr-form-group">
-                        <label>PIB</label>
-                        <input type="text" name="pib" placeholder="9 cifara">
+                    <div class="aktopr-form-grid">
+                        <div class="aktopr-form-group">
+                            <label>PIB</label>
+                            <input type="text" name="pib" placeholder="9 cifara">
+                        </div>
+                        <div class="aktopr-form-group">
+                            <label>Matični broj (MB)</label>
+                            <input type="text" name="maticni_broj" placeholder="8 cifara">
+                        </div>
                     </div>
                     <div class="aktopr-form-group">
-                        <label>Adresa</label>
-                        <input type="text" name="adresa" placeholder="Ulica i broj, grad">
+                        <label>Adresa sedišta</label>
+                        <input type="text" name="adresa" placeholder="Улица и број, Поштански број, Град">
+                    </div>
+                    <div class="aktopr-form-grid">
+                        <div class="aktopr-form-group">
+                            <label>Телефон 1</label>
+                            <input type="tel" name="telefon" placeholder="+381...">
+                        </div>
+                        <div class="aktopr-form-group">
+                            <label>Телефон 2</label>
+                            <input type="tel" name="telefon2" placeholder="+381...">
+                        </div>
                     </div>
                     <div class="aktopr-form-group">
                         <label>Email</label>
                         <input type="email" name="email" placeholder="email@firma.rs">
                     </div>
+                    <div class="aktopr-form-grid">
+                        <div class="aktopr-form-group">
+                            <label>Тип делатности</label>
+                            <select name="tip_delatnosti">
+                                <option value="kancelarijski">Канцеларијски</option>
+                                <option value="gradjevinski">Грађевински</option>
+                                <option value="proizvodnja">Производња</option>
+                                <option value="usluge">Услуге</option>
+                                <option value="mesovito">Мешовито</option>
+                            </select>
+                        </div>
+                        <div class="aktopr-form-group">
+                            <label>Шифра делатности</label>
+                            <input type="text" name="sifra_delatnosti" placeholder="npr. 4120">
+                        </div>
+                    </div>
                     <div class="aktopr-form-group">
-                        <label>Tip delatnosti</label>
-                        <select name="tip_delatnosti">
-                            <option value="kancelarijski">Kancelarijski</option>
-                            <option value="gradjevinski">Građevinski</option>
-                            <option value="proizvodnja">Proizvodnja</option>
-                            <option value="usluge">Usluge</option>
-                            <option value="mesovito">Mešovito</option>
-                        </select>
+                        <label>Одговорно лице</label>
+                        <input type="text" name="odgovorno_lice" placeholder="Име и презиме">
+                    </div>
+                    <div class="aktopr-form-group">
+                        <label>Веб сајт</label>
+                        <input type="url" name="web_sajt" placeholder="https://...">
                     </div>
                     <button type="submit" class="aktopr-btn aktopr-btn-primary" style="width: 100%; margin-top: 15px;">
-                        Sačuvaj
+                        Сачувај
                     </button>
                 </form>
             `;
@@ -610,6 +644,203 @@
             setTimeout(() => {
                 $toast.fadeOut();
             }, 3000);
+        },
+
+        selectKlijent: function(id) {
+            this.klijentId = id;
+            $('#aktopr-app').data('klijent-id', id);
+            
+            $.ajax({
+                url: aktoprData.ajaxurl,
+                type: 'POST',
+                data: {
+                    action: 'aktopr_get_klijent',
+                    nonce: aktoprData.nonce,
+                    id: id
+                },
+                success: (response) => {
+                    if (response.success) {
+                        const data = response.data.data;
+                        $('#aktopr-app').find('.aktopr-client-name').text(data.naziv || 'Klijent');
+                        $('#aktopr-app').find('.aktopr-header-client').append(
+                            '<button type="button" class="aktopr-btn aktopr-btn-sm" id="aktopr-edit-client"><span class="dashicons dashicons-edit"></span></button>'
+                        );
+                        
+                        this.klijentId = data.id;
+                        location.reload();
+                    }
+                }
+            });
+        },
+
+        editKlijent: function(id) {
+            $.ajax({
+                url: aktoprData.ajaxurl,
+                type: 'POST',
+                data: {
+                    action: 'aktopr_get_klijent',
+                    nonce: aktoprData.nonce,
+                    id: id
+                },
+                success: (response) => {
+                    if (response.success) {
+                        this.showClientModalWithData(id, response.data.data);
+                    }
+                }
+            });
+        },
+
+        showClientModalWithData: function(id, data) {
+            const modal = $('#aktopr-modal');
+            
+            let html = `
+                <h2>Uredi klijenta</h2>
+                <form id="aktopr-client-form">
+                    <input type="hidden" name="id" value="${id}">
+                    <div class="aktopr-form-group">
+                        <label>Pun naziv firme *</label>
+                        <input type="text" name="naziv" required value="${data.naziv || ''}">
+                    </div>
+                    <div class="aktopr-form-grid">
+                        <div class="aktopr-form-group">
+                            <label>PIB</label>
+                            <input type="text" name="pib" value="${data.pib || ''}">
+                        </div>
+                        <div class="aktopr-form-group">
+                            <label>Matični broj (MB)</label>
+                            <input type="text" name="maticni_broj" value="${data.maticni_broj || ''}">
+                        </div>
+                    </div>
+                    <div class="aktopr-form-group">
+                        <label>Adresa sedišta</label>
+                        <input type="text" name="adresa" value="${data.adresa || ''}">
+                    </div>
+                    <div class="aktopr-form-grid">
+                        <div class="aktopr-form-group">
+                            <label>Телефон 1</label>
+                            <input type="tel" name="telefon" value="${data.telefon || ''}">
+                        </div>
+                        <div class="aktopr-form-group">
+                            <label>Телефон 2</label>
+                            <input type="tel" name="telefon2" value="${data.telefon2 || ''}">
+                        </div>
+                    </div>
+                    <div class="aktopr-form-group">
+                        <label>Email</label>
+                        <input type="email" name="email" value="${data.email || ''}">
+                    </div>
+                    <div class="aktopr-form-grid">
+                        <div class="aktopr-form-group">
+                            <label>Тип делатности</label>
+                            <select name="tip_delatnosti">
+                                <option value="kancelarijski" ${data.tip_delatnosti === 'kancelarijski' ? 'selected' : ''}>Канцеларијски</option>
+                                <option value="gradjevinski" ${data.tip_delatnosti === 'gradjevinski' ? 'selected' : ''}>Грађевински</option>
+                                <option value="proizvodnja" ${data.tip_delatnosti === 'proizvodnja' ? 'selected' : ''}>Производња</option>
+                                <option value="usluge" ${data.tip_delatnosti === 'usluge' ? 'selected' : ''}>Услуге</option>
+                                <option value="mesovito" ${data.tip_delatnosti === 'mesovito' ? 'selected' : ''}>Мешовито</option>
+                            </select>
+                        </div>
+                        <div class="aktopr-form-group">
+                            <label>Шифра делатности</label>
+                            <input type="text" name="sifra_delatnosti" value="${data.sifra_delatnosti || ''}">
+                        </div>
+                    </div>
+                    <div class="aktopr-form-group">
+                        <label>Одговорно лице</label>
+                        <input type="text" name="odgovorno_lice" value="${data.odgovorno_lice || ''}">
+                    </div>
+                    <div class="aktopr-form-group">
+                        <label>Веб сајт</label>
+                        <input type="url" name="web_sajt" value="${data.web_sajt || ''}">
+                    </div>
+                    <button type="submit" class="aktopr-btn aktopr-btn-primary" style="width: 100%; margin-top: 15px;">
+                        Сачувај
+                    </button>
+                </form>
+            `;
+            
+            modal.find('.aktopr-modal-body').html(html);
+            modal.show();
+
+            $('#aktopr-client-form').on('submit', (e) => {
+                e.preventDefault();
+                this.saveClient();
+            });
+        },
+
+        showWizardModal: function() {
+            if (this.klijentId === 0) {
+                this.showToast('Prvo izaberite klijenta!', true);
+                return;
+            }
+            
+            const modal = $('#aktopr-modal');
+            
+            let html = `
+                <h2>Креирај нови Акт о процени ризика</h2>
+                <p class="aktopr-wizard-intro">Попуните основне податке за нови акт.</p>
+                <form id="aktopr-wizard-form">
+                    <div class="aktopr-form-group">
+                        <label>Назив акта *</label>
+                        <input type="text" name="naziv" required value="Акт о процени ризика" placeholder="Назив документа">
+                    </div>
+                    <div class="aktopr-form-grid">
+                        <div class="aktopr-form-group">
+                            <label>Број акта</label>
+                            <input type="text" name="broj" placeholder="нпр. АПР-001/2024">
+                        </div>
+                        <div class="aktopr-form-group">
+                            <label>Датум израде</label>
+                            <input type="date" name="datum_izrade" value="${new Date().toISOString().split('T')[0]}">
+                        </div>
+                    </div>
+                    <div class="aktopr-form-group">
+                        <label>Датум ступања на снагу</label>
+                        <input type="date" name="datum_stupanja" placeholder="Када акт ступа на снагу">
+                    </div>
+                    <div class="aktopr-wizard-summary">
+                        <h4>Подаци о клијенту:</h4>
+                        <p>Клијент: <strong>${$('#aktopr-app').find('.aktopr-client-name').text()}</strong></p>
+                        <p>Систем ће аутоматски:</p>
+                        <ul>
+                            <li>Преузети све запослене за овог клијента</li>
+                            <li>Учитати делатност и шифру делатности</li>
+                            <li>Попунити податке из претходних модула</li>
+                        </ul>
+                    </div>
+                    <input type="hidden" name="klijent_id" value="${this.klijentId}">
+                    <button type="submit" class="aktopr-btn aktopr-btn-primary" style="width: 100%; margin-top: 15px;">
+                        Креирај акт
+                    </button>
+                </form>
+            `;
+            
+            modal.find('.aktopr-modal-body').html(html);
+            modal.show();
+
+            $('#aktopr-wizard-form').on('submit', (e) => {
+                e.preventDefault();
+                this.kreirajAkt();
+            });
+        },
+
+        kreirajAkt: function() {
+            const formData = $('#aktopr-wizard-form').serialize();
+            
+            $.ajax({
+                url: aktoprData.ajaxurl,
+                type: 'POST',
+                data: formData + '&action=aktopr_kreiraj_novi_akt&nonce=' + aktoprData.nonce,
+                success: (response) => {
+                    if (response.success) {
+                        this.showToast('Акт креиран!');
+                        this.closeModal();
+                        this.showModule($('.aktopr-nav-item[data-module="1"]'));
+                    } else {
+                        this.showToast('Грешка: ' + response.data.message, true);
+                    }
+                }
+            });
         }
     };
 

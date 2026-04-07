@@ -58,7 +58,8 @@
                     <button type="button" 
                             class="aktopr-nav-item <?php echo esc_attr($status_class); ?>" 
                             data-module="<?php echo esc_attr($num); ?>"
-                            data-sections="<?php echo esc_attr($module['sections']); ?>">
+                            data-sections="<?php echo esc_attr($module['sections']); ?>"
+                            <?php echo ($klijent_id === 0) ? 'disabled title="Prvo izaberite klijenta"' : ''; ?>>
                         <span class="aktopr-nav-icon"><?php echo esc_html($module['icon']); ?></span>
                         <span class="aktopr-nav-text">
                             <span class="aktopr-nav-num"><?php echo esc_html($num); ?>.</span>
@@ -70,7 +71,11 @@
                 </div>
                 
                 <div class="aktopr-nav-section">
-                    <h3>Podaci</h3>
+                    <h3>Klijenti</h3>
+                    <button type="button" class="aktopr-nav-item" data-panel="klijenti">
+                        <span class="aktopr-nav-icon">🏢</span>
+                        <span class="aktopr-nav-text">Klijenti</span>
+                    </button>
                     <button type="button" class="aktopr-nav-item" data-panel="zaposleni">
                         <span class="aktopr-nav-icon">👥</span>
                         <span class="aktopr-nav-text">Zaposleni (<?php echo count($zaposleni); ?>)</span>
@@ -643,6 +648,48 @@
                                 <p>Dodajte prvo radno mesto.</p>
                             </div>
                             <?php endif; ?>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- KLIJENTI PANEL -->
+                <section class="aktopr-panel" data-panel="klijenti" style="display: none;">
+                    <div class="aktopr-panel-header">
+                        <h2>Klijenti</h2>
+                        <button type="button" class="aktopr-btn aktopr-btn-primary" id="aktopr-add-klijent">+ Novi klijent</button>
+                    </div>
+                    <div class="aktopr-panel-content">
+                        <div class="aktopr-klijenti-list" id="aktopr-klijenti-list">
+                            <div class="aktopr-klijent-item" data-id="0">
+                                <div class="aktopr-klijent-info">
+                                    <strong>Demo klijent</strong>
+                                    <span class="aktopr-klijent-delatnost">Građevinarstvo</span>
+                                </div>
+                                <div class="aktopr-klijent-meta">
+                                    <span class="aktopr-klijent-pib">PIB: 123456789</span>
+                                    <span class="aktopr-klijent-aktivi">0 aktova</span>
+                                </div>
+                                <div class="aktopr-klijent-actions">
+                                    <button type="button" class="aktopr-btn-sm aktopr-btn-select-klijent" data-id="0">Izaberi</button>
+                                    <button type="button" class="aktopr-btn-sm aktopr-btn-edit-klijent" data-id="0">Uredi</button>
+                                </div>
+                            </div>
+                            <?php foreach (Auto_AktoPR_Database::get_svi_klijenti() as $k): ?>
+                            <div class="aktopr-klijent-item" data-id="<?php echo esc_attr($k->ID); ?>">
+                                <div class="aktopr-klijent-info">
+                                    <strong><?php echo esc_html($k->post_title); ?></strong>
+                                    <span class="aktopr-klijent-delatnost"><?php echo esc_html(get_post_meta($k->ID, 'aapr_tip_delatnosti', true) ?: 'Nije definisano'); ?></span>
+                                </div>
+                                <div class="aktopr-klijent-meta">
+                                    <span class="aktopr-klijent-pib">PIB: <?php echo esc_html(get_post_meta($k->ID, 'aapr_pib', true) ?: '-'); ?></span>
+                                    <span class="aktopr-klijent-aktivi"><?php echo count(Auto_AktoPR_Database::get_aktivi_za_klijenta($k->ID)); ?> aktova</span>
+                                </div>
+                                <div class="aktopr-klijent-actions">
+                                    <button type="button" class="aktopr-btn-sm aktopr-btn-select-klijent" data-id="<?php echo esc_attr($k->ID); ?>">Izaberi</button>
+                                    <button type="button" class="aktopr-btn-sm aktopr-btn-edit-klijent" data-id="<?php echo esc_attr($k->ID); ?>">Uredi</button>
+                                </div>
+                            </div>
+                            <?php endforeach; ?>
                         </div>
                     </div>
                 </section>

@@ -156,6 +156,37 @@ class Auto_AktoPR_Database {
                 updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                 PRIMARY KEY (id)
             ) $charset",
+            
+            'zanimanja' => "CREATE TABLE {$wpdb->prefix}aapr_zanimanja (
+                id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+                sifra VARCHAR(50) NOT NULL,
+                naziv VARCHAR(255) NOT NULL,
+                opis TEXT,
+                grupa_delatnosti VARCHAR(100) DEFAULT 'gradjevinski',
+                kategorija ENUM('radnik','tehnicar','inzenjer','rukovodilac','ostalo') DEFAULT 'radnik',
+                aktivan TINYINT(1) DEFAULT 1,
+                sistemski TINYINT(1) DEFAULT 0,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                PRIMARY KEY (id)
+            ) $charset",
+            
+            'aktivi' => "CREATE TABLE {$wpdb->prefix}aapr_aktivi (
+                id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+                client_id BIGINT UNSIGNED NOT NULL,
+                naziv VARCHAR(255) NOT NULL,
+                broj VARCHAR(50),
+                datum_izrade DATE,
+                datum_stupanja DATE,
+                verzija INT DEFAULT 1,
+                status ENUM('nacrt','aktivan','arhiviran') DEFAULT 'nacrt',
+                napomene TEXT,
+                created_by BIGINT UNSIGNED,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                PRIMARY KEY (id),
+                FOREIGN KEY (client_id) REFERENCES {$wpdb->posts}(ID) ON DELETE CASCADE
+            ) $charset",
         ];
 
         foreach ($tables as $sql) {
@@ -208,6 +239,46 @@ class Auto_AktoPR_Database {
             ('fizicke', 'OP-PRAS', 'Prašina', 'Udisanje prašine.', 'Građevinski materijali', 'Respiratorne bolesti'),
             ('ergonomske', 'OP-ERGO', 'Loša ergonomija', 'Neodgovarajući položaj.', 'Dugotrajan rad', 'Bolovi u leđima'),
             ('psihosocijalne', 'OP-STRES', 'Stres', 'Psihički pritisak.', 'Radni uslovi', 'Anksioznost')");
+
+        if ($wpdb->get_var("SELECT COUNT(*) FROM {$wpdb->prefix}aapr_zanimanja") == 0) {
+            $zanimanja = [
+                ['sifra' => 'GRD-RAD', 'naziv' => 'Građevinski radnik', 'kategorija' => 'radnik', 'opis' => 'Opšti građevinski radovi'],
+                ['sifra' => 'GRD-ZID', 'naziv' => 'Zidar', 'kategorija' => 'radnik', 'opis' => 'Zidarski radovi, malterisanje, gips'],
+                ['sifra' => 'GRD-TES', 'naziv' => 'Tesar', 'kategorija' => 'radnik', 'opis' => 'Drvena oplata, krovne konstrukcije'],
+                ['sifra' => 'GRD-ARM', 'naziv' => 'Armirač', 'kategorija' => 'radnik', 'opis' => 'Armiranje betonskih konstrukcija'],
+                ['sifra' => 'GRD-BET', 'naziv' => 'Betonski radnik', 'kategorija' => 'radnik', 'opis' => 'Betoniranje, ugradnja betona'],
+                ['sifra' => 'GRD-MOL', 'naziv' => 'Moler', 'kategorija' => 'radnik', 'opis' => 'Farbanje, krečenje, gipskartonski radovi'],
+                ['sifra' => 'GRD-KER', 'naziv' => 'Keramičar', 'kategorija' => 'radnik', 'opis' => 'Postavljanje keramike, pločica'],
+                ['sifra' => 'GRD-VOD', 'naziv' => 'Vodoinstalater', 'kategorija' => 'radnik', 'opis' => 'Vodovod i kanalizacija'],
+                ['sifra' => 'GRD-ELE', 'naziv' => 'Električar', 'kategorija' => 'radnik', 'opis' => 'Elektroinstalacije'],
+                ['sifra' => 'GRD-GAS', 'naziv' => 'Monter gasnih instalacija', 'kategorija' => 'radnik', 'opis' => 'Gasne instalacije'],
+                ['sifra' => 'GRD-KLI', 'naziv' => 'Klimatizacija i ventilacija', 'kategorija' => 'radnik', 'opis' => 'HVAC sistemi'],
+                ['sifra' => 'GRD-ALU', 'naziv' => 'Aluminijumski stolarija', 'kategorija' => 'radnik', 'opis' => 'Aluminijumska stolarija'],
+                ['sifra' => 'GRD-VOZ', 'naziv' => 'Vozač', 'kategorija' => 'radnik', 'opis' => 'Transport vozilima'],
+                ['sifra' => 'GRD-OPR', 'naziv' => 'Operator građevinskih mašina', 'kategorija' => 'radnik', 'opis' => 'Bager, utovarivač, dizalica'],
+                ['sifra' => 'GRD-BET-MIX', 'naziv' => 'Betonski mešač', 'kategorija' => 'radnik', 'opis' => 'Priprema betona'],
+                ['sifra' => 'GRD-SIG', 'naziv' => 'Sigar', 'kategorija' => 'radnik', 'opis' => 'Postavljanje izolacije'],
+                ['sifra' => 'GRD-RUK', 'naziv' => 'Rukovodilac gradilišta', 'kategorija' => 'rukovodilac', 'opis' => 'Rukovodi građevinskim radovima'],
+                ['sifra' => 'GRD-GRA', 'naziv' => 'Građevinski inspektor', 'kategorija' => 'inzenjer', 'opis' => 'Nadzor nad radovima'],
+                ['sifra' => 'GRD-TEH', 'naziv' => 'Građevinski tehničar', 'kategorija' => 'tehnicar', 'opis' => 'Tehnička dokumentacija'],
+                ['sifra' => 'GRD-EL-VOD', 'naziv' => 'Elektro-vodoinstalater', 'kategorija' => 'radnik', 'opis' => 'Kombinovani elektro i vodovodni radovi'],
+                ['sifra' => 'GRD-SAN', 'naziv' => 'Soboslikar', 'kategorija' => 'radnik', 'opis' => 'Farbanje i bojenje'],
+                ['sifra' => 'GRD-POD', 'naziv' => 'Podopolagač', 'kategorija' => 'radnik', 'opis' => 'Postavljanje podova'],
+                ['sifra' => 'GRD-LIM', 'naziv' => 'Limar', 'kategorija' => 'radnik', 'opis' => 'Limarski radovi na krovovima'],
+                ['sifra' => 'GRD-KOV', 'naziv' => 'Kovač', 'kategorija' => 'radnik', 'opis' => 'Kovački radovi'],
+                ['sifra' => 'GRD-NAD', 'naziv' => 'Nadzornik BZR', 'kategorija' => 'rukovodilac', 'opis' => 'Nadzor bezbednosti i zdravlja na radu'],
+            ];
+            
+            foreach ($zanimanja as $z) {
+                $wpdb->insert($wpdb->prefix . 'aapr_zanimanja', [
+                    'sifra' => $z['sifra'],
+                    'naziv' => $z['naziv'],
+                    'opis' => $z['opis'],
+                    'kategorija' => $z['kategorija'],
+                    'sistemski' => 1,
+                ]);
+            }
+        }
     }
 
     public static function log_action(string $action, string $object_type, ?int $object_id = null, $old_value = null, $new_value = null): void {
@@ -250,5 +321,46 @@ class Auto_AktoPR_Database {
         if ($grupa_opasnosti) $where[] = $wpdb->prepare("grupa_opasnosti = %s", $grupa_opasnosti);
         if ($tip) $where[] = $wpdb->prepare("tip = %s", $tip);
         return $wpdb->get_results("SELECT * FROM {$wpdb->prefix}aapr_standardne_mere WHERE " . implode(' AND ', $where) . " ORDER BY prioritet", ARRAY_A);
+    }
+
+    public static function get_zanimanja(string $grupa_delatnosti = '', bool $samo_aktivna = true): array {
+        global $wpdb;
+        $where = [];
+        if ($samo_aktivna) $where[] = 'aktivan = 1';
+        if ($grupa_delatnosti) $where[] = $wpdb->prepare("grupa_delatnosti = %s", $grupa_delatnosti);
+        $where_sql = !empty($where) ? 'WHERE ' . implode(' AND ', $where) : '';
+        return $wpdb->get_results("SELECT * FROM {$wpdb->prefix}aapr_zanimanja $where_sql ORDER BY kategorija, naziv", ARRAY_A);
+    }
+
+    public static function get_svi_klijenti(): array {
+        return get_posts([
+            'post_type' => 'aapr_klijent',
+            'posts_per_page' => -1,
+            'post_status' => 'publish',
+            'orderby' => 'title',
+            'order' => 'ASC',
+        ]);
+    }
+
+    public static function get_aktivi_za_klijenta(int $klijent_id): array {
+        global $wpdb;
+        return $wpdb->get_results(
+            $wpdb->prepare("SELECT * FROM {$wpdb->prefix}aapr_aktivi WHERE client_id = %d ORDER BY created_at DESC", $klijent_id),
+            ARRAY_A
+        );
+    }
+
+    public static function kreiraj_novi_akt(int $klijent_id, array $data): int {
+        global $wpdb;
+        $wpdb->insert($wpdb->prefix . 'aapr_aktivi', [
+            'client_id' => $klijent_id,
+            'naziv' => sanitize_text_field($data['naziv'] ?? 'Akt o proceni rizika'),
+            'broj' => sanitize_text_field($data['broj'] ?? ''),
+            'datum_izrade' => sanitize_text_field($data['datum_izrade'] ?? date('Y-m-d')),
+            'datum_stupanja' => sanitize_text_field($data['datum_stupanja'] ?? ''),
+            'status' => 'nacrt',
+            'created_by' => get_current_user_id(),
+        ]);
+        return (int) $wpdb->insert_id;
     }
 }

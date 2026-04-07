@@ -29,6 +29,9 @@ class Auto_AktoPR_App {
         add_action('wp_ajax_aktopr_get_radno_mesto', [$this, 'ajax_get_radno_mesto']);
         add_action('wp_ajax_aktopr_delete_radno_mesto', [$this, 'ajax_delete_radno_mesto']);
         add_action('wp_ajax_aktopr_get_klijent', [$this, 'ajax_get_klijent']);
+        add_action('wp_ajax_aktopr_get_svi_klijenti', [$this, 'ajax_get_svi_klijenti']);
+        add_action('wp_ajax_aktopr_kreiraj_novi_akt', [$this, 'ajax_kreiraj_novi_akt']);
+        add_action('wp_ajax_aktopr_get_aktivi', [$this, 'ajax_get_aktivi']);
         add_action('wp_ajax_aktopr_save_klijent', [$this, 'ajax_save_klijent']);
     }
 
@@ -101,6 +104,7 @@ class Auto_AktoPR_App {
             'pib' => get_post_meta($klijent->ID, 'aapr_pib', true),
             'adresa' => get_post_meta($klijent->ID, 'aapr_adresa', true),
             'telefon' => get_post_meta($klijent->ID, 'aapr_telefon', true),
+            'telefon2' => get_post_meta($klijent->ID, 'aapr_telefon2', true),
             'email' => get_post_meta($klijent->ID, 'aapr_email', true),
             'delatnost' => get_post_meta($klijent->ID, 'aapr_delatnost', true),
             'tip_delatnosti' => get_post_meta($klijent->ID, 'aapr_tip_delatnosti', true),
@@ -109,6 +113,10 @@ class Auto_AktoPR_App {
             'odluka_datum' => get_post_meta($klijent->ID, 'aapr_odluka_datum', true),
             'strucno_lice' => get_post_meta($klijent->ID, 'aapr_strucno_lice', true),
             'broj_licence' => get_post_meta($klijent->ID, 'aapr_broj_licence', true),
+            'maticni_broj' => get_post_meta($klijent->ID, 'aapr_maticni_broj', true),
+            'sifra_delatnosti' => get_post_meta($klijent->ID, 'aapr_sifra_delatnosti', true),
+            'odgovorno_lice' => get_post_meta($klijent->ID, 'aapr_odgovorno_lice', true),
+            'web_sajt' => get_post_meta($klijent->ID, 'aapr_web_sajt', true),
         ];
     }
 
@@ -119,6 +127,7 @@ class Auto_AktoPR_App {
             'pib' => '',
             'adresa' => '',
             'telefon' => '',
+            'telefon2' => '',
             'email' => '',
             'delatnost' => '',
             'tip_delatnosti' => 'kancelarijski',
@@ -127,6 +136,10 @@ class Auto_AktoPR_App {
             'odluka_datum' => date('Y-m-d'),
             'strucno_lice' => '',
             'broj_licence' => '',
+            'maticni_broj' => '',
+            'sifra_delatnosti' => '',
+            'odgovorno_lice' => '',
+            'web_sajt' => '',
         ];
     }
 
@@ -235,7 +248,11 @@ class Auto_AktoPR_App {
             wp_send_json_error(['message' => $post_id->get_error_message()]);
         }
         
-        $fields = ['pib', 'adresa', 'telefon', 'email', 'delatnost', 'tip_delatnosti', 'broj_zaposlenih', 'odluka_broj', 'odluka_datum', 'strucno_lice', 'broj_licence'];
+        $fields = [
+            'pib', 'adresa', 'telefon', 'email', 'delatnost', 'tip_delatnosti', 
+            'broj_zaposlenih', 'odluka_broj', 'odluka_datum', 'strucno_lice', 'broj_licence',
+            'telefon2', 'maticni_broj', 'sifra_delatnosti', 'odgovorno_lice', 'web_sajt'
+        ];
         foreach ($fields as $field) {
             if (isset($_POST[$field])) {
                 update_post_meta($post_id, 'aapr_' . $field, sanitize_text_field($_POST[$field]));
@@ -382,6 +399,67 @@ class Auto_AktoPR_App {
         $wpdb->delete($wpdb->prefix . 'aapr_radna_mesta', ['id' => $id]);
         
         wp_send_json_success(['message' => 'Radno mesto obrisano']);
+    }
+
+    public function ajax_get_svi_klijenti(): void {
+        check_ajax_referer('aktopr_nonce');
+        
+        $klijenti = Auto_AktoPR_Database::get_svi_klijenti();
+        $data = [];
+        
+        foreach ($klijenti as $k) {
+            $aktivi_count = count(Auto_AktoPR_Database::get_aktivi_za_klijenta($k->ID));
+            $data[] = [
+                'id' => $k->ID,
+                'naziv' => $k->post_title,
+                'pib' => get_post_meta($k->ID, 'aapr_pib', true),
+                'tip_delatnosti' => get_post_meta($k->ID, 'aapr_tip_delatnosti', true),
+                'adresa' => get_post_meta($k->ID, 'aapr_adresa', true),
+                'telefon' => get_post_meta($k->ID, 'aapr_telefon', true),
+                'email' => get_post_meta($k->ID, 'aapr_email', true),
+                'broj_zaposlenih' => count($this->get_zaposleni($k->ID)),
+                'aktivi_count' => $aktivi_count,
+            ];
+        }
+        
+        wp_send_json_success(['data' => $data]);
+    }
+
+    public function ajax_kreiraj_novi_akt(): void {
+        check_ajax_referer('aktopr_nonce');
+        
+        $klijent_id = (int) ($_POST['klijent_id'] ?? 0);
+        $data = [
+            'naziv' => sanitize_text_field($_POST['naziv'] ?? 'Akt o proceni rizika'),
+            'broj' => sanitize_text_field($_POST['broj'] ?? ''),
+            'datum_izrade' => sanitize_text_field($_POST['datum_izrade'] ?? date('Y-m-d')),
+            'datum_stupanja' => sanitize_text_field($_POST['datum_stupanja'] ?? ''),
+        ];
+        
+        if ($klijent_id === 0) {
+            wp_send_json_error(['message' => 'Nije izabran klijent']);
+        }
+        
+        $akt_id = Auto_AktoPR_Database::kreiraj_novi_akt($klijent_id, $data);
+        
+        wp_send_json_success([
+            'id' => $akt_id,
+            'message' => 'Akt kreiran',
+            'redirect' => add_query_arg(['akt_id' => $akt_id], get_permalink())
+        ]);
+    }
+
+    public function ajax_get_aktivi(): void {
+        check_ajax_referer('aktopr_nonce');
+        
+        $klijent_id = (int) ($_POST['klijent_id'] ?? 0);
+        
+        if ($klijent_id === 0) {
+            wp_send_json_error(['message' => 'Nevažeći klijent']);
+        }
+        
+        $aktivi = Auto_AktoPR_Database::get_aktivi_za_klijenta($klijent_id);
+        wp_send_json_success(['data' => $aktivi]);
     }
 
     public function ajax_ai_generate(): void {
