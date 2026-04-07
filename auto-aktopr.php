@@ -42,15 +42,7 @@ final class Auto_AktoPR {
     }
     
     private function load_dependencies(): void {
-        require_once AUTO_AKTOPR_PLUGIN_DIR . 'includes/class-database.php';
-        require_once AUTO_AKTOPR_PLUGIN_DIR . 'includes/class-cpt.php';
-        require_once AUTO_AKTOPR_PLUGIN_DIR . 'includes/class-roles.php';
-        require_once AUTO_AKTOPR_PLUGIN_DIR . 'includes/class-admin.php';
-        require_once AUTO_AKTOPR_PLUGIN_DIR . 'includes/class-ajax.php';
-        require_once AUTO_AKTOPR_PLUGIN_DIR . 'includes/class-api.php';
-        require_once AUTO_AKTOPR_PLUGIN_DIR . 'includes/class-document.php';
-        require_once AUTO_AKTOPR_PLUGIN_DIR . 'includes/class-export.php';
-        require_once AUTO_AKTOPR_PLUGIN_DIR . 'includes/class-ai.php';
+        // Klase se automatski učitavaju preko autoload-a
     }
     
     private function init_hooks(): void {
@@ -84,7 +76,7 @@ final class Auto_AktoPR {
     }
     
     public static function activate(): void {
-        require_once AUTO_AKTOPR_PLUGIN_DIR . 'includes/class-database.php';
+        // Autoload će učitati potrebne klase
         Auto_AktoPR_Database::create_tables();
         Auto_AktoPR_Roles::add_roles();
         flush_rewrite_rules();
