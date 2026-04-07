@@ -177,7 +177,7 @@
                     <input type="hidden" name="id" value="${this.klijentId}">
                     <div class="aktopr-form-group">
                         <label>Pun naziv firme *</label>
-                        <input type="text" name="naziv" required placeholder="Naziv preduzeća">
+                        <input type="text" name="naziv" required placeholder="Naziv preduzeca">
                     </div>
                     <div class="aktopr-form-grid">
                         <div class="aktopr-form-group">
@@ -185,21 +185,21 @@
                             <input type="text" name="pib" placeholder="9 cifara">
                         </div>
                         <div class="aktopr-form-group">
-                            <label>Matični broj (MB)</label>
+                            <label>Maticni broj (MB)</label>
                             <input type="text" name="maticni_broj" placeholder="8 cifara">
                         </div>
                     </div>
                     <div class="aktopr-form-group">
-                        <label>Adresa sedišta</label>
-                        <input type="text" name="adresa" placeholder="Улица и број, Поштански број, Град">
+                        <label>Adresa sedista</label>
+                        <input type="text" name="adresa" placeholder="Ulica i broj, Postanski broj, Grad">
                     </div>
                     <div class="aktopr-form-grid">
                         <div class="aktopr-form-group">
-                            <label>Телефон 1</label>
+                            <label>Telefon 1</label>
                             <input type="tel" name="telefon" placeholder="+381...">
                         </div>
                         <div class="aktopr-form-group">
-                            <label>Телефон 2</label>
+                            <label>Telefon 2</label>
                             <input type="tel" name="telefon2" placeholder="+381...">
                         </div>
                     </div>
@@ -209,30 +209,30 @@
                     </div>
                     <div class="aktopr-form-grid">
                         <div class="aktopr-form-group">
-                            <label>Тип делатности</label>
+                            <label>Tip delatnosti</label>
                             <select name="tip_delatnosti">
-                                <option value="kancelarijski">Канцеларијски</option>
-                                <option value="gradjevinski">Грађевински</option>
-                                <option value="proizvodnja">Производња</option>
-                                <option value="usluge">Услуге</option>
-                                <option value="mesovito">Мешовито</option>
+                                <option value="kancelarijski">Kancelarijski</option>
+                                <option value="gradjevinski">Gradjevinski</option>
+                                <option value="proizvodnja">Proizvodnja</option>
+                                <option value="usluge">Usluge</option>
+                                <option value="mesovito">Mesovito</option>
                             </select>
                         </div>
                         <div class="aktopr-form-group">
-                            <label>Шифра делатности</label>
+                            <label>Sifra delatnosti</label>
                             <input type="text" name="sifra_delatnosti" placeholder="npr. 4120">
                         </div>
                     </div>
                     <div class="aktopr-form-group">
-                        <label>Одговорно лице</label>
-                        <input type="text" name="odgovorno_lice" placeholder="Име и презиме">
+                        <label>Odgovorno lice</label>
+                        <input type="text" name="odgovorno_lice" placeholder="Ime i prezime">
                     </div>
                     <div class="aktopr-form-group">
-                        <label>Веб сајт</label>
+                        <label>Web sajt</label>
                         <input type="url" name="web_sajt" placeholder="https://...">
                     </div>
                     <button type="submit" class="aktopr-btn aktopr-btn-primary" style="width: 100%; margin-top: 15px;">
-                        Сачувај
+                        Sacuvaj
                     </button>
                 </form>
             `;
@@ -707,21 +707,21 @@
                             <input type="text" name="pib" value="${data.pib || ''}">
                         </div>
                         <div class="aktopr-form-group">
-                            <label>Matični broj (MB)</label>
+                            <label>Maticni broj (MB)</label>
                             <input type="text" name="maticni_broj" value="${data.maticni_broj || ''}">
                         </div>
                     </div>
                     <div class="aktopr-form-group">
-                        <label>Adresa sedišta</label>
+                        <label>Adresa sedista</label>
                         <input type="text" name="adresa" value="${data.adresa || ''}">
                     </div>
                     <div class="aktopr-form-grid">
                         <div class="aktopr-form-group">
-                            <label>Телефон 1</label>
+                            <label>Telefon 1</label>
                             <input type="tel" name="telefon" value="${data.telefon || ''}">
                         </div>
                         <div class="aktopr-form-group">
-                            <label>Телефон 2</label>
+                            <label>Telefon 2</label>
                             <input type="tel" name="telefon2" value="${data.telefon2 || ''}">
                         </div>
                     </div>
@@ -731,30 +731,30 @@
                     </div>
                     <div class="aktopr-form-grid">
                         <div class="aktopr-form-group">
-                            <label>Тип делатности</label>
+                            <label>Tip delatnosti</label>
                             <select name="tip_delatnosti">
-                                <option value="kancelarijski" ${data.tip_delatnosti === 'kancelarijski' ? 'selected' : ''}>Канцеларијски</option>
-                                <option value="gradjevinski" ${data.tip_delatnosti === 'gradjevinski' ? 'selected' : ''}>Грађевински</option>
-                                <option value="proizvodnja" ${data.tip_delatnosti === 'proizvodnja' ? 'selected' : ''}>Производња</option>
-                                <option value="usluge" ${data.tip_delatnosti === 'usluge' ? 'selected' : ''}>Услуге</option>
-                                <option value="mesovito" ${data.tip_delatnosti === 'mesovito' ? 'selected' : ''}>Мешовито</option>
+                                <option value="kancelarijski" ${data.tip_delatnosti === 'kancelarijski' ? 'selected' : ''}>Kancelarijski</option>
+                                <option value="gradjevinski" ${data.tip_delatnosti === 'gradjevinski' ? 'selected' : ''}>Gradjevinski</option>
+                                <option value="proizvodnja" ${data.tip_delatnosti === 'proizvodnja' ? 'selected' : ''}>Proizvodnja</option>
+                                <option value="usluge" ${data.tip_delatnosti === 'usluge' ? 'selected' : ''}>Usluge</option>
+                                <option value="mesovito" ${data.tip_delatnosti === 'mesovito' ? 'selected' : ''}>Mesovito</option>
                             </select>
                         </div>
                         <div class="aktopr-form-group">
-                            <label>Шифра делатности</label>
+                            <label>Sifra delatnosti</label>
                             <input type="text" name="sifra_delatnosti" value="${data.sifra_delatnosti || ''}">
                         </div>
                     </div>
                     <div class="aktopr-form-group">
-                        <label>Одговорно лице</label>
+                        <label>Odgovorno lice</label>
                         <input type="text" name="odgovorno_lice" value="${data.odgovorno_lice || ''}">
                     </div>
                     <div class="aktopr-form-group">
-                        <label>Веб сајт</label>
+                        <label>Web sajt</label>
                         <input type="url" name="web_sajt" value="${data.web_sajt || ''}">
                     </div>
                     <button type="submit" class="aktopr-btn aktopr-btn-primary" style="width: 100%; margin-top: 15px;">
-                        Сачувај
+                        Sacuvaj
                     </button>
                 </form>
             `;
@@ -777,40 +777,40 @@
             const modal = $('#aktopr-modal');
             
             let html = `
-                <h2>Креирај нови Акт о процени ризика</h2>
-                <p class="aktopr-wizard-intro">Попуните основне податке за нови акт.</p>
+                <h2>Kreiraj novi Akt o proceni rizika</h2>
+                <p class="aktopr-wizard-intro">Popunite osnovne podatke za novi akt.</p>
                 <form id="aktopr-wizard-form">
                     <div class="aktopr-form-group">
-                        <label>Назив акта *</label>
-                        <input type="text" name="naziv" required value="Акт о процени ризика" placeholder="Назив документа">
+                        <label>Naziv akta *</label>
+                        <input type="text" name="naziv" required value="Akt o proceni rizika" placeholder="Naziv dokumenta">
                     </div>
                     <div class="aktopr-form-grid">
                         <div class="aktopr-form-group">
-                            <label>Број акта</label>
-                            <input type="text" name="broj" placeholder="нпр. АПР-001/2024">
+                            <label>Broj akta</label>
+                            <input type="text" name="broj" placeholder="npr. APR-001/2024">
                         </div>
                         <div class="aktopr-form-group">
-                            <label>Датум израде</label>
+                            <label>Datum izrade</label>
                             <input type="date" name="datum_izrade" value="${new Date().toISOString().split('T')[0]}">
                         </div>
                     </div>
                     <div class="aktopr-form-group">
-                        <label>Датум ступања на снагу</label>
-                        <input type="date" name="datum_stupanja" placeholder="Када акт ступа на снагу">
+                        <label>Datum stupanja na snagu</label>
+                        <input type="date" name="datum_stupanja" placeholder="Kada akt stupa na snagu">
                     </div>
                     <div class="aktopr-wizard-summary">
-                        <h4>Подаци о клијенту:</h4>
-                        <p>Клијент: <strong>${$('#aktopr-app').find('.aktopr-client-name').text()}</strong></p>
-                        <p>Систем ће аутоматски:</p>
+                        <h4>Podaci o klijentu:</h4>
+                        <p>Klijent: <strong>${$('#aktopr-app').find('.aktopr-client-name').text()}</strong></p>
+                        <p>Sistem ce automatski:</p>
                         <ul>
-                            <li>Преузети све запослене за овог клијента</li>
-                            <li>Учитати делатност и шифру делатности</li>
-                            <li>Попунити податке из претходних модула</li>
+                            <li>Pretpostavljenje svih zaposlenih za ovog klijenta</li>
+                            <li>Ucati delatnost i sifru delatnosti</li>
+                            <li>Popuniti podatke iz prethodnih modula</li>
                         </ul>
                     </div>
                     <input type="hidden" name="klijent_id" value="${this.klijentId}">
                     <button type="submit" class="aktopr-btn aktopr-btn-primary" style="width: 100%; margin-top: 15px;">
-                        Креирај акт
+                        Kreiraj akt
                     </button>
                 </form>
             `;
@@ -833,11 +833,11 @@
                 data: formData + '&action=aktopr_kreiraj_novi_akt&nonce=' + aktoprData.nonce,
                 success: (response) => {
                     if (response.success) {
-                        this.showToast('Акт креиран!');
+                        this.showToast('Akt kreiran!');
                         this.closeModal();
                         this.showModule($('.aktopr-nav-item[data-module="1"]'));
                     } else {
-                        this.showToast('Грешка: ' + response.data.message, true);
+                        this.showToast('Greska: ' + response.data.message, true);
                     }
                 }
             });
