@@ -1,0 +1,103 @@
+# Auto AoPR - Akt o Proceni Rizika
+
+## V1.0 - Kompletna Specifikacija
+
+### Vizija
+WordPress plugin za automatsko kreiranje Akta o proceni rizika. Jedan dashboard - sve na jednom mestu.
+
+---
+
+## Struktura
+
+### Shortcode
+`[aktopr_dashboard]` - Kompletan sistem pod jednim shortcode-om
+
+### Admin Panel (backend)
+- Samo za podešavanja (API ključevi, biblioteke)
+- Pregled svih klijenata i dokumenata
+
+---
+
+## Moduli (10 čarobnjaka)
+
+### Modul 1: Osnovni Podaci i Uvod (1.1-1.4)
+- Podaci o poslodavcu
+- Podaci o timu za procenu
+- Odluka o pokretanju
+- Pravni osnov
+
+### Modul 2: Opis Radnog Procesa (2.1-2.4)
+- Opis delatnosti
+- Opis objekata i prostora
+- Sredstva za rad
+- PPE oprema
+
+### Modul 3: Sistematizacija Radnih Mesta (3.1-3.2.5)
+- **Najvažniji modul**
+- Automatski presek zanimanja iz baze
+- Grupisanje po grupama
+- Generiše samo postojeća zanimanja
+
+### Modul 4: Identifikacija Opasnosti (4.1-4.4)
+- Grupe opasnosti
+- Povezivanje sa radnim mestima
+- Specifične opasnosti
+
+### Modul 5: Procena Rizika (5.1-5.3)
+- Kinney metoda (R = P × F × C)
+- Tabele po radnim mestima
+- Radna mesta sa povećanim rizikom
+
+### Modul 6: Mere Zaštite (6.1-6.4)
+- Tehničke, organizacione, PPE mere
+- Rokovi i zadužena lica
+- Akcioni plan
+
+### Modul 7: Izveštaji i Evidencije (7.1-7.4)
+- Istorija povreda
+- Osposobljavanje
+- PPE evidencija
+
+### Modul 8: Zaključak (8.1-8.2)
+- Automatski generisan
+- Potpis poslodavca
+
+### Modul 9: Prilozi (9.1-9.4)
+- Upload dokumenata
+- Planovi, fotografije, SDS
+
+### Modul 10: Istorija Izmena (10.1-10.2)
+- Automatski audit log
+- Verzionisanje
+
+---
+
+## Master Dokument
+- Živ, dinamičan dokument
+- Brojevi stranica se automatski pomeraju
+- Svaka sekcija ima "Generate / Regenerate"
+- AI koristi samo kada je neophodno
+
+---
+
+## Biblioteke
+1. Generički tekst blokovi (sa uslovima)
+2. Standardne mere zaštite
+3. Opasnosti po grupama
+4. Propisi i koeficijenti
+5. Obrasci i šabloni
+
+---
+
+## Multitenant
+- Jedan WordPress = jedan glavni korisnik
+- Tim korisnici sa različitim ulogama
+- Svaki korisnik vidi samo svoje podatke
+
+---
+
+## UI/UX
+- Jedna stranica (SPA)
+- Sidebar sa modulima
+- Progress tracking
+- Real-time save

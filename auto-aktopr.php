@@ -63,8 +63,7 @@ final class Auto_AktoPR {
     public function init_classes(): void {
         new Auto_AktoPR_CPT();
         new Auto_AktoPR_Roles();
-        new Auto_AktoPR_Frontend();
-        new Auto_AktoPR_Portal();
+        new Auto_AktoPR_App();
         
         if (is_admin()) {
             new Auto_AktoPR_Admin();
