@@ -1,3 +1,5 @@
+<?php
+
 Auto_AktoPR_Autoload::register();
 
 class Auto_AktoPR_Autoload {
