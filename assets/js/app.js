@@ -665,6 +665,7 @@
         },
 
         selectKlijent: function(id) {
+            console.log('selectKlijent called with id:', id);
             this.klijentId = id;
             $('#aktopr-app').data('klijent-id', id);
             
@@ -677,6 +678,7 @@
                     id: id
                 },
                 success: (response) => {
+                    console.log('selectKlijent response:', response);
                     if (response.success) {
                         const data = response.data.data;
                         $('#aktopr-app').find('.aktopr-client-name').text(data.naziv || 'Klijent');
@@ -687,11 +689,15 @@
                         this.klijentId = data.id;
                         location.reload();
                     }
+                },
+                error: (xhr, status, error) => {
+                    console.log('selectKlijent error:', status, error);
                 }
             });
         },
 
         editKlijent: function(id) {
+            console.log('editKlijent called with id:', id);
             $.ajax({
                 url: aktoprData.ajaxurl,
                 type: 'POST',
@@ -701,9 +707,13 @@
                     id: id
                 },
                 success: (response) => {
+                    console.log('editKlijent response:', response);
                     if (response.success) {
                         this.showClientModalWithData(id, response.data.data);
                     }
+                },
+                error: (xhr, status, error) => {
+                    console.log('editKlijent error:', status, error);
                 }
             });
         },
