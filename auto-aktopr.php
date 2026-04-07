@@ -76,7 +76,10 @@ final class Auto_AktoPR {
     }
     
     public static function activate(): void {
-        // Autoload će učitati potrebne klase
+        require_once AUTO_AKTOPR_PLUGIN_DIR . 'includes/class/class-database.php';
+        require_once AUTO_AKTOPR_PLUGIN_DIR . 'includes/class/class-roles.php';
+        require_once AUTO_AKTOPR_PLUGIN_DIR . 'includes/class/class-cpt.php';
+        
         Auto_AktoPR_Database::create_tables();
         Auto_AktoPR_Roles::add_roles();
         flush_rewrite_rules();
