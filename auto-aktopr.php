@@ -64,6 +64,7 @@ final class Auto_AktoPR {
         new Auto_AktoPR_CPT();
         new Auto_AktoPR_Roles();
         new Auto_AktoPR_Frontend();
+        new Auto_AktoPR_Portal();
         
         if (is_admin()) {
             new Auto_AktoPR_Admin();

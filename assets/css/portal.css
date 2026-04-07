@@ -1,0 +1,444 @@
+.aktopr-portal {
+    max-width: 1200px;
+    margin: 30px auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.aktopr-portal-header {
+    background: linear-gradient(135deg, #2271b1 0%, #135e96 100%);
+    color: white;
+    padding: 40px;
+    text-align: center;
+}
+
+.aktopr-portal-header h1 {
+    margin: 0 0 10px;
+    font-size: 28px;
+}
+
+.aktopr-portal-header p {
+    margin: 0;
+    opacity: 0.9;
+}
+
+.aktopr-form {
+    padding: 30px 40px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.aktopr-form-group {
+    margin-bottom: 20px;
+}
+
+.aktopr-form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #1d2327;
+}
+
+.aktopr-form-group input,
+.aktopr-form-group select,
+.aktopr-form-group textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e5e5e5;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: border-color 0.2s;
+}
+
+.aktopr-form-group input:focus,
+.aktopr-form-group select:focus,
+.aktopr-form-group textarea:focus {
+    outline: none;
+    border-color: #2271b1;
+}
+
+.aktopr-form-group input[type="checkbox"] {
+    width: auto;
+    margin-right: 8px;
+}
+
+.aktopr-checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.aktopr-checkbox-group label {
+    display: flex;
+    align-items: center;
+    font-weight: normal;
+    cursor: pointer;
+}
+
+.aktopr-form-actions {
+    margin-top: 25px;
+}
+
+.aktopr-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 28px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+}
+
+.aktopr-btn-primary {
+    background: #2271b1;
+    color: white;
+}
+
+.aktopr-btn-primary:hover {
+    background: #135e96;
+}
+
+.aktopr-btn-secondary {
+    background: #f0f0f0;
+    color: #1d2327;
+}
+
+.aktopr-btn-secondary:hover {
+    background: #e0e0e0;
+}
+
+.aktopr-btn-outline {
+    background: transparent;
+    color: white;
+    border: 2px solid white;
+}
+
+.aktopr-btn-outline:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+.aktopr-form-actions .aktopr-btn {
+    width: 100%;
+}
+
+.aktopr-form-links {
+    margin-top: 20px;
+    text-align: center;
+    color: #666;
+}
+
+.aktopr-form-links a {
+    color: #2271b1;
+    font-weight: 600;
+}
+
+.aktopr-message {
+    margin: 20px 40px;
+    padding: 15px 20px;
+    border-radius: 8px;
+}
+
+.aktopr-message.success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.aktopr-message.error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Dashboard */
+.aktopr-dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 40px;
+    background: linear-gradient(135deg, #2271b1 0%, #135e96 100%);
+    color: white;
+}
+
+.aktopr-header-content h1 {
+    margin: 0 0 5px;
+    font-size: 24px;
+}
+
+.aktopr-header-content p {
+    margin: 0;
+    opacity: 0.9;
+}
+
+.aktopr-header-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.aktopr-klijent-info {
+    padding: 25px 40px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.aktopr-klijent-info h2 {
+    margin: 0 0 15px;
+    font-size: 20px;
+    color: #1d2327;
+}
+
+.aktopr-info-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.aktopr-info-item {
+    display: flex;
+    gap: 8px;
+}
+
+.aktopr-info-label {
+    font-weight: 600;
+    color: #666;
+}
+
+.aktopr-info-value {
+    color: #1d2327;
+}
+
+.aktopr-dashboard-tabs {
+    display: flex;
+    padding: 0 40px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.aktopr-tab {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 15px 20px;
+    background: none;
+    border: none;
+    font-size: 15px;
+    color: #666;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+}
+
+.aktopr-tab:hover {
+    color: #2271b1;
+}
+
+.aktopr-tab.active {
+    color: #2271b1;
+    border-bottom-color: #2271b1;
+}
+
+.aktopr-tab-icon {
+    font-size: 18px;
+}
+
+.aktopr-count {
+    background: #e5e5e5;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 12px;
+}
+
+.aktopr-tab.active .aktopr-count {
+    background: #2271b1;
+    color: white;
+}
+
+.aktopr-tab-content {
+    display: none;
+    padding: 30px 40px;
+}
+
+.aktopr-tab-content.active {
+    display: block;
+}
+
+.aktopr-tab-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.aktopr-tab-header h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #1d2327;
+}
+
+.aktopr-empty {
+    text-align: center;
+    padding: 60px 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    color: #666;
+}
+
+.aktopr-empty p {
+    margin: 5px 0;
+}
+
+.aktopr-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.aktopr-table th,
+.aktopr-table td {
+    padding: 15px 20px;
+    text-align: left;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.aktopr-table th {
+    background: #f8f9fa;
+    font-weight: 600;
+    color: #1d2327;
+}
+
+.aktopr-table tr:last-child td {
+    border-bottom: none;
+}
+
+.aktopr-table tr:hover td {
+    background: #f8f9fa;
+}
+
+.aktopr-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    background: #e5e5e5;
+    color: #1d2327;
+}
+
+.aktopr-btn-sm {
+    display: inline-block;
+    padding: 6px 12px;
+    font-size: 13px;
+    background: #f0f0f0;
+    color: #1d2327;
+    border-radius: 4px;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+}
+
+.aktopr-btn-sm:hover {
+    background: #e0e0e0;
+}
+
+.aktopr-btn-sm:not(:last-child) {
+    margin-right: 5px;
+}
+
+/* Modal */
+.aktopr-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.aktopr-modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    max-width: 600px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.aktopr-modal-content h2 {
+    margin: 0 0 20px;
+    font-size: 20px;
+    color: #1d2327;
+}
+
+.aktopr-modal-close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #666;
+}
+
+.aktopr-modal .aktopr-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.aktopr-modal .aktopr-form-actions .aktopr-btn {
+    width: auto;
+}
+
+@media (max-width: 768px) {
+    .aktopr-dashboard-header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .aktopr-dashboard-tabs {
+        padding: 0 20px;
+        overflow-x: auto;
+    }
+    
+    .aktopr-tab {
+        padding: 12px 15px;
+        font-size: 14px;
+        white-space: nowrap;
+    }
+    
+    .aktopr-tab-content {
+        padding: 20px;
+    }
+    
+    .aktopr-form {
+        padding: 20px;
+    }
+    
+    .aktopr-table {
+        font-size: 14px;
+    }
+    
+    .aktopr-table th,
+    .aktopr-table td {
+        padding: 10px 12px;
+    }
+}
