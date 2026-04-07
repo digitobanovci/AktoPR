@@ -248,19 +248,27 @@
 
         saveClient: function() {
             const formData = $('#aktopr-client-form').serialize();
+            console.log('Form data:', formData);
+            console.log('Nonce:', aktoprData.nonce);
             
             $.ajax({
                 url: aktoprData.ajaxurl,
                 type: 'POST',
                 data: formData + '&action=aktopr_save_klijent&nonce=' + aktoprData.nonce,
                 success: (response) => {
+                    console.log('Success:', response);
                     if (response.success) {
-                        this.showToast('Klijent sačuvan!');
+                        this.showToast('Klijent sacuvan!');
                         this.closeModal();
                         location.reload();
                     } else {
-                        this.showToast('Greška: ' + response.data.message, true);
+                        this.showToast('Greska: ' + response.data.message, true);
                     }
+                },
+                error: (xhr, status, error) => {
+                    console.log('Error:', status, error);
+                    console.log('Response:', xhr.responseText);
+                    this.showToast('Greska: ' + error, true);
                 }
             });
         },
