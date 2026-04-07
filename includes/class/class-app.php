@@ -227,7 +227,11 @@ class Auto_AktoPR_App {
     }
 
     public function ajax_save_klijent(): void {
-        check_ajax_referer('aktopr_nonce');
+        $nonce = $_POST['nonce'] ?? '';
+        if (!wp_verify_nonce($nonce, 'aktopr_nonce')) {
+            wp_send_json_error(['message' => 'Nonce verification failed', 'debug' => $nonce]);
+            return;
+        }
         
         $id = (int) ($_POST['id'] ?? 0);
         $data = [

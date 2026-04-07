@@ -247,14 +247,24 @@
         },
 
         saveClient: function() {
-            const formData = $('#aktopr-client-form').serialize();
+            const formData = $('#aktopr-client-form').serializeArray();
             console.log('Form data:', formData);
-            console.log('Nonce:', aktoprData.nonce);
+            
+            const data = {
+                action: 'aktopr_save_klijent',
+                nonce: aktoprData.nonce
+            };
+            
+            $.each(formData, function(i, field) {
+                data[field.name] = field.value;
+            });
+            
+            console.log('Data to send:', data);
             
             $.ajax({
                 url: aktoprData.ajaxurl,
                 type: 'POST',
-                data: formData + '&action=aktopr_save_klijent&nonce=' + aktoprData.nonce,
+                data: data,
                 success: (response) => {
                     console.log('Success:', response);
                     if (response.success) {
