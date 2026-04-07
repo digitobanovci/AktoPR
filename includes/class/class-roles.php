@@ -3,8 +3,6 @@
 class Auto_AktoPR_Roles {
     
     public static function add_roles(): void {
-        add Roles();
-        
         $caps = [
             'edit_aapr_klijent', 'read_aapr_klijent', 'delete_aapr_klijent',
             'edit_aapr_zaposleni', 'read_aapr_zaposleni', 'delete_aapr_zaposleni',
